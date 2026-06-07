@@ -21,6 +21,8 @@ builder.Services.AddScoped<CreateOrderHandler>();
 builder.Services.AddScoped<RetrieveOrdersHandler>();
 builder.Services.AddScoped<CancelOrderHandler>();
 
+builder.Services.AddScoped<IMessageBus, RabbitMqPublisher>();
+
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
