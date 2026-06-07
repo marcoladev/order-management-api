@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Application.Orders.CreateOrder;
+using OrderManagement.Application.Orders.RetrieveOrders;
 
 namespace OrderManagement.Api.Controllers;
 
@@ -18,5 +19,16 @@ public class OrdersController : ControllerBase
             nameof(Create),
             new { id },
             new { id });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> RetrieveOrders(
+        [FromServices] RetrieveOrdersHandler handler)
+    {
+        var query = new RetrieveOrdersQuery();
+
+        var orders = await handler.HandleAsync(query);
+
+        return Ok(orders);
     }
 }

@@ -25,5 +25,10 @@ namespace OrderManagement.Infrastructure.Repositories
             return await _context.Orders
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<List<Order>> GetAllAsync()
+        {
+            return await _context.Orders.AsNoTracking().ToListAsync();
+        }
     }
 }

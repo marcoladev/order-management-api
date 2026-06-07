@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using OrderManagement.Application.Interfaces;
 using OrderManagement.Application.Orders.CreateOrder;
+using OrderManagement.Application.Orders.RetrieveOrders;
 using OrderManagement.Infrastructure.Persistence;
 using OrderManagement.Infrastructure.Repositories;
 
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<CreateOrderHandler>();
+builder.Services.AddScoped<RetrieveOrdersHandler>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 
@@ -26,7 +28,6 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// ✅ Swagger middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -36,8 +37,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "OrderManagement API v1");
     });
 }
-
-Console.WriteLine(app.Environment.EnvironmentName);
 
 app.UseHttpsRedirection();
 app.MapControllers();
