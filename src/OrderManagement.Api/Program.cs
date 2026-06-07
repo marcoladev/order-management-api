@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using OrderManagement.Application.Interfaces;
+using OrderManagement.Application.Orders.CreateOrder;
 using OrderManagement.Infrastructure.Persistence;
+using OrderManagement.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<OrderDbContext>(
+builder.Services.AddDbContext<ApplicationDbContext>(
     options =>
         options.UseMySql(
             builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -16,6 +19,12 @@ builder.Services.AddDbContext<OrderDbContext>(
             )
         )
 );
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+builder.Services.AddScoped<CreateOrderHandler>();
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 
 var app = builder.Build();
 
