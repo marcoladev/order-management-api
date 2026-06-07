@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OrderManagement.Application.Orders.CancelOrder;
 using OrderManagement.Application.Orders.CreateOrder;
 using OrderManagement.Application.Orders.RetrieveOrders;
 
@@ -30,5 +31,19 @@ public class OrdersController : ControllerBase
         var orders = await handler.HandleAsync(query);
 
         return Ok(orders);
+    }
+
+    [HttpPatch("{id:guid}/cancel")]
+    public async Task<IActionResult> CancelOrder(
+    Guid id,
+    [FromServices] CancelOrderHandler handler)
+    {
+        var response = await handler.HandleAsync(
+            new CancelOrderCommand(id));
+
+        if (!response.Success)
+            return NotFound(response);
+
+        return Ok(response);
     }
 }

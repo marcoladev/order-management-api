@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using OrderManagement.Application.Interfaces;
+using OrderManagement.Application.Orders.CancelOrder;
 using OrderManagement.Application.Orders.CreateOrder;
 using OrderManagement.Application.Orders.RetrieveOrders;
 using OrderManagement.Infrastructure.Persistence;
@@ -18,6 +19,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<CreateOrderHandler>();
 builder.Services.AddScoped<RetrieveOrdersHandler>();
+builder.Services.AddScoped<CancelOrderHandler>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 

@@ -30,5 +30,11 @@ namespace OrderManagement.Infrastructure.Repositories
         {
             return await _context.Orders.AsNoTracking().ToListAsync();
         }
+
+        public async Task UpdateAsync(Order order)
+        {
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
+        }
     }
 }
