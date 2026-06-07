@@ -2,8 +2,7 @@ using FluentValidation;
 
 namespace OrderManagement.Application.Orders.CreateOrder
 {
-    public class CreateOrderCommandValidator
-    : AbstractValidator<CreateOrderCommand>
+    public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
     {
         public CreateOrderCommandValidator()
         {

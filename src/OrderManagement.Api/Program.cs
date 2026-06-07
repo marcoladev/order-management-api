@@ -17,10 +17,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<CreateOrderHandler>();
 
-builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
+//builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -31,11 +33,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.RoutePrefix = string.Empty; // Swagger at "/"
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "OrderManagement API v1");
     });
 }
 
 Console.WriteLine(app.Environment.EnvironmentName);
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
+app.MapControllers();
 
 app.Run();
