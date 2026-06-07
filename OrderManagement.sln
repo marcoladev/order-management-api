@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Api", "src\OrderManagement.Api\OrderManagement.Api.csproj", "{2EEC4D50-FC72-4C11-A10C-6A088C85E882}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Application", "src\OrderManagement.Application\OrderManagement.Application.csproj", "{9FB3492D-E431-4420-8C85-9CEF468777DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagement.Domain", "src\OrderManagement.Domain\OrderManagement.Domain.csproj", "{44CA16CC-A865-493B-B2E7-16FF94E5A2DB}"
@@ -25,6 +27,18 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Debug|x64.Build.0 = Debug|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Debug|x86.Build.0 = Debug|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Release|x64.ActiveCfg = Release|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Release|x64.Build.0 = Release|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Release|x86.ActiveCfg = Release|Any CPU
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882}.Release|x86.Build.0 = Release|Any CPU
 		{9FB3492D-E431-4420-8C85-9CEF468777DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9FB3492D-E431-4420-8C85-9CEF468777DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FB3492D-E431-4420-8C85-9CEF468777DD}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -78,6 +92,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{2EEC4D50-FC72-4C11-A10C-6A088C85E882} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{9FB3492D-E431-4420-8C85-9CEF468777DD} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{44CA16CC-A865-493B-B2E7-16FF94E5A2DB} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{C8AF5609-CD16-4359-A12D-3A354233DAAB} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}

@@ -4,6 +4,7 @@ using OrderManagement.Application.Interfaces;
 using OrderManagement.Application.Orders.CancelOrder;
 using OrderManagement.Application.Orders.CreateOrder;
 using OrderManagement.Application.Orders.RetrieveOrders;
+using OrderManagement.Infrastructure.Messaging;
 using OrderManagement.Infrastructure.Persistence;
 using OrderManagement.Infrastructure.Repositories;
 
