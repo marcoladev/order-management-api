@@ -1,6 +1,6 @@
 # Order Management API
 
-A backend application built with .NET 9 following Clean Architecture principles.
+A backend application built with .NET 8 following Clean Architecture principles.
 
 ## Features
 
@@ -15,7 +15,7 @@ A backend application built with .NET 9 following Clean Architecture principles.
 
 ## Technologies
 
-- .NET 9
+- .NET 8
 - ASP.NET Core Web API
 - Entity Framework Core
 - MySQL
