@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<CreateOrderHandler>();
 
-//builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
