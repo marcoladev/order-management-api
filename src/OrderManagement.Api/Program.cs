@@ -4,6 +4,7 @@ using OrderManagement.Application.Interfaces;
 using OrderManagement.Application.Orders.CancelOrder;
 using OrderManagement.Application.Orders.CreateOrder;
 using OrderManagement.Application.Orders.RetrieveOrders;
+using OrderManagement.Domain.Settings;
 using OrderManagement.Infrastructure.Messaging;
 using OrderManagement.Infrastructure.Persistence;
 using OrderManagement.Infrastructure.Repositories;
@@ -25,6 +26,9 @@ builder.Services.AddScoped<CancelOrderHandler>();
 builder.Services.AddScoped<IMessageBus, RabbitMqPublisher>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
+
+builder.Services.Configure<RabbitMqSettings>(
+    builder.Configuration.GetSection("RabbitMq"));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
