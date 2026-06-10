@@ -14,7 +14,7 @@ public class OrdersController : ControllerBase
         [FromServices] CreateOrderHandler handler,
         [FromBody] CreateOrderCommand command)
     {
-        var id = await handler.Handle(command);
+        var id = await handler.HandleAsync(command);
 
         return CreatedAtAction(
             nameof(Create),

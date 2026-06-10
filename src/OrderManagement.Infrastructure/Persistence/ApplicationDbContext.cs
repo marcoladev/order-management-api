@@ -12,6 +12,7 @@ namespace OrderManagement.Infrastructure.Persistence
         }
 
         public DbSet<Order> Orders => Set<Order>();
+        public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
