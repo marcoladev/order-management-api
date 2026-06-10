@@ -7,12 +7,6 @@ A backend application built with .NET 8 following Clean Architecture principles 
 * Create Orders
 * Retrieve Orders
 * Cancel Orders
-* Entity Framework Core
-* MySQL
-* FluentValidation
-* RabbitMQ Integration
-* Background Worker Processing
-* Audit Logging
 
 ## Solution Structure
 
@@ -74,6 +68,7 @@ MySQL (AuditLogs)
 * FluentValidation
 * Docker
 * xUnit
+* Swagger
 
 ## Running RabbitMQ
 
