@@ -5,9 +5,9 @@ using OrderManagement.Application.Interfaces;
 
 namespace OrderManagement.Infrastructure.Messaging;
 
-public class RabbitMqPublisher : IMessageBus
+public class RabbitMqPublisher : IPublisherMessageBus
 {
-    public async Task PublishAsync<T>(T message)
+    public async Task PublishAsync<T>(string queueName, T message)
     {
         var factory = new ConnectionFactory
         {
@@ -21,7 +21,7 @@ public class RabbitMqPublisher : IMessageBus
             await connection.CreateChannelAsync();
 
         await channel.QueueDeclareAsync(
-            queue: "order-created",
+            queue: queueName,
             durable: true,
             exclusive: false,
             autoDelete: false);
@@ -31,7 +31,7 @@ public class RabbitMqPublisher : IMessageBus
 
         await channel.BasicPublishAsync(
             exchange: string.Empty,
-            routingKey: "order-created",
+            routingKey: queueName,
             body: body);
     }
 }

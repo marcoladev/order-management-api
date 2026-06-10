@@ -6,18 +6,18 @@ namespace OrderManagement.Application.Orders.CreateOrder
 {
     public class CreateOrderHandler
     {
-        private readonly IMessageBus _messageBus;
+        private readonly IPublisherMessageBus _messageBus;
         private readonly IOrderRepository _repository;
 
         public CreateOrderHandler(
     IOrderRepository orderRepository,
-    IMessageBus messageBus)
+    IPublisherMessageBus messageBus)
         {
             _repository = orderRepository;
             _messageBus = messageBus;
         }
 
-        public async Task<Guid> Handle(CreateOrderCommand command)
+        public async Task<Guid> HandleAsync(CreateOrderCommand command)
         {
             var order = new Order(
                 command.CustomerName,
@@ -25,7 +25,7 @@ namespace OrderManagement.Application.Orders.CreateOrder
 
             await _repository.AddAsync(order);
 
-            await _messageBus.PublishAsync(
+            await _messageBus.PublishAsync("order-created",
                 new OrderCreatedEvent(
                     order.Id,
                     order.CustomerName,

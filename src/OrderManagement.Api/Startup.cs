@@ -30,7 +30,7 @@ namespace OrderManagement.Api
             services.AddScoped<RetrieveOrdersHandler>();
             services.AddScoped<CancelOrderHandler>();
 
-            services.AddScoped<IMessageBus, RabbitMqPublisher>();
+            services.AddScoped<IPublisherMessageBus, RabbitMqPublisher>();
 
             services.Configure<RabbitMqSettings>(
                 configuration.GetSection("RabbitMq"));
