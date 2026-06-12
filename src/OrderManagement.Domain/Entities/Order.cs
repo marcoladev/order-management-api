@@ -1,3 +1,5 @@
+using OrderManagement.Domain.Exceptions;
+
 namespace OrderManagement.Domain.Entities
 {
     public class Order
@@ -25,6 +27,9 @@ namespace OrderManagement.Domain.Entities
 
         public void Cancel()
         {
+            if (Status == OrderStatus.Cancelled)
+                throw new DomainException("Order is already cancelled.");
+                
             Status = OrderStatus.Cancelled;
         }
     }
