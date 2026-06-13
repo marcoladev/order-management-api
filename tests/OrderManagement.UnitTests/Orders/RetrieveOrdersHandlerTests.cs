@@ -32,15 +32,15 @@ public class RetrieveOrdersHandlerTests
         var result = await _handler.HandleAsync(
             new RetrieveOrdersQuery());
 
-        Assert.Equal(2, result.Count);
+        Assert.Equal(2, result.Orders.Count);
 
-        Assert.Equal(orders[0].Id, result[0].Id);
-        Assert.Equal("John Doe", result[0].CustomerName);
-        Assert.Equal(100m, result[0].TotalAmount);
+        Assert.Equal(orders[0].Id, result.Orders[0].Id);
+        Assert.Equal("John Doe", result.Orders[0].CustomerName);
+        Assert.Equal(100m, result.Orders[0].TotalAmount);
 
-        Assert.Equal(orders[1].Id, result[1].Id);
-        Assert.Equal("Jane Smith", result[1].CustomerName);
-        Assert.Equal(250m, result[1].TotalAmount);
+        Assert.Equal(orders[1].Id, result.Orders[1].Id);
+        Assert.Equal("Jane Smith", result.Orders[1].CustomerName);
+        Assert.Equal(250m, result.Orders[1].TotalAmount);
 
         _repositoryMock.Verify(
             r => r.GetAllAsync(),
@@ -57,7 +57,7 @@ public class RetrieveOrdersHandlerTests
         var result = await _handler.HandleAsync(
             new RetrieveOrdersQuery());
 
-        Assert.Empty(result);
+        Assert.Empty(result.Orders);
 
         _repositoryMock.Verify(
             r => r.GetAllAsync(),
