@@ -34,7 +34,7 @@ public class OrdersController : ControllerBase
         }
         catch (Exception ex)
         {
-            var responsebase = new  RetrieveOrdersResponse()
+            var responsebase = new RetrieveOrdersResponse()
             {
                 Success = false,
                 Message = "An error occurred while retrieving orders.",
@@ -50,11 +50,25 @@ public class OrdersController : ControllerBase
     Guid id,
     [FromServices] CancelOrderHandler handler)
     {
-        var response = await handler.HandleAsync(new CancelOrderCommand(id));
+        try
+        {
+            var response = await handler.HandleAsync(new CancelOrderCommand(id));
 
-        if (!response.Success)
-            return NotFound(response);
+            if (!response.Success)
+                return NotFound(response);
 
-        return Ok(response);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            var responsebase = new CancelOrderResponse()
+            {
+                Success = false,
+                Message = "An error occurred while cancelling the order.",
+                Details = ex.Message
+            };
+
+            return BadRequest(responsebase);
+        }
     }
 }
