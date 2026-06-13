@@ -10,8 +10,8 @@ namespace OrderManagement.Application.Orders.CreateOrder
         private readonly IOrderRepository _repository;
 
         public CreateOrderHandler(
-    IOrderRepository orderRepository,
-    IPublisherMessageBus messageBus)
+            IOrderRepository orderRepository,
+            IPublisherMessageBus messageBus)
         {
             _repository = orderRepository;
             _messageBus = messageBus;

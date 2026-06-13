@@ -8,18 +8,16 @@ namespace OrderManagement.Infrastructure.Messaging;
 
 public class RabbitMqConsumer : IConsumerMessageBus
 {
+    private readonly IConnection _connection;
+
+    public RabbitMqConsumer(IConnection connection)
+    {
+        _connection = connection;
+    }
+
     public async Task<T?> ConsumeAsync<T>(string queueName)
     {
-        var factory = new ConnectionFactory
-        {
-            HostName = "localhost"
-        };
-
-        var connection =
-            await factory.CreateConnectionAsync();
-
-        var channel =
-            await connection.CreateChannelAsync();
+        var channel = await _connection.CreateChannelAsync();
 
         await channel.QueueDeclareAsync(
             queue: queueName,

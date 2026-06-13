@@ -1,17 +1,15 @@
 
 using OrderManagement.Application.Interfaces;
 using OrderManagement.Domain.Entities;
+using OrderManagement.Infrastructure.Base;
 using OrderManagement.Infrastructure.Persistence;
 
 namespace OrderManagement.Infrastructure.Repositories;
 
-public class AuditLogRepository : IAuditLogRepository
+public class AuditLogRepository : RepositoryBase , IAuditLogRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    public AuditLogRepository(ApplicationDbContext context)
+    public AuditLogRepository(ApplicationDbContext context) : base(context)
     {
-        _context = context;
     }
 
     public async Task AddAsync(AuditLog auditLog)

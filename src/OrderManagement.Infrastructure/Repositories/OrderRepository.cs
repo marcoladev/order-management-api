@@ -1,17 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using OrderManagement.Application.Interfaces;
 using OrderManagement.Domain.Entities;
+using OrderManagement.Infrastructure.Base;
 using OrderManagement.Infrastructure.Persistence;
 
 namespace OrderManagement.Infrastructure.Repositories
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderRepository : RepositoryBase, IOrderRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public OrderRepository(ApplicationDbContext context)
+        public OrderRepository(ApplicationDbContext context) : base(context)
         {
-            _context = context;
         }
 
         public async Task AddAsync(Order order)

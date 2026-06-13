@@ -6,6 +6,7 @@ using OrderManagement.Infrastructure.Messaging;
 using OrderManagement.Infrastructure.Persistence;
 using OrderManagement.Infrastructure.Repositories;
 using OrderManagement.Worker.Orders;
+using RabbitMQ.Client;
 
 namespace OrderManagement.Worker;
 
@@ -19,6 +20,17 @@ public static class Startup
                     ServerVersion.AutoDetect(
                         configuration.GetConnectionString("DefaultConnection"))
                 ));
+
+        services.AddSingleton<IConnection>(sp =>
+        {
+            var factory = new ConnectionFactory
+            {
+                HostName = configuration.GetSection("RabbitMq:Host").Get<string>()
+            };
+            return factory.CreateConnectionAsync()
+            .GetAwaiter()
+            .GetResult();
+        });
 
         services.Configure<RabbitMqSettings>(configuration.GetSection("RabbitMq"));
         services.AddHostedService<OrderCreatedConsumer>();
