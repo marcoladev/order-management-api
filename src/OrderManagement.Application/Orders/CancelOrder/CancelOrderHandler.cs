@@ -27,7 +27,6 @@ public sealed class CancelOrderHandler
                     false,
                     "Order is already cancelled.");
 
-
         order.Cancel();
 
         await _orderRepository.UpdateAsync(order);

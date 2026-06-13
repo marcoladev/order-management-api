@@ -8,6 +8,7 @@ using OrderManagement.Domain.Settings;
 using OrderManagement.Infrastructure.Messaging;
 using OrderManagement.Infrastructure.Persistence;
 using OrderManagement.Infrastructure.Repositories;
+using RabbitMQ.Client;
 
 namespace OrderManagement.Api
 {
@@ -36,6 +37,17 @@ namespace OrderManagement.Api
                 configuration.GetSection("RabbitMq"));
 
             services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
+
+            services.AddSingleton<IConnection>(sp =>
+            {
+                var factory = new ConnectionFactory
+                {
+                    HostName = configuration.GetSection("RabbitMq:Host").Get<string>()
+                };
+                return factory.CreateConnectionAsync()
+                .GetAwaiter()
+                .GetResult();
+            });
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();

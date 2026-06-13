@@ -7,18 +7,17 @@ namespace OrderManagement.Infrastructure.Messaging;
 
 public class RabbitMqPublisher : IPublisherMessageBus
 {
+    private readonly IConnection _connection;
+
+    public RabbitMqPublisher(IConnection connection)
+    {
+        _connection = connection;
+    }
+
     public async Task PublishAsync<T>(string queueName, T message)
     {
-        var factory = new ConnectionFactory
-        {
-            HostName = "localhost"
-        };
-
-        await using var connection =
-            await factory.CreateConnectionAsync();
-
-        await using var channel =
-            await connection.CreateChannelAsync();
+        
+        await using var channel = await _connection.CreateChannelAsync();
 
         await channel.QueueDeclareAsync(
             queue: queueName,

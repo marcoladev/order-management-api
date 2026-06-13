@@ -1,6 +1,16 @@
+using OrderManagement.Domain.Responses;
+
 namespace OrderManagement.Application.Orders.CancelOrder;
 
-public sealed record CancelOrderResponse(
-    bool Success,
-    string Message
-);
+public class CancelOrderResponse : ResponseBase
+{
+    public CancelOrderResponse()
+    {
+    }
+    
+    public CancelOrderResponse(bool success, string message)
+    {
+        Success = success;
+        Message = message;
+    } 
+}

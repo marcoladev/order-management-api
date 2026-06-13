@@ -23,13 +23,11 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> RetrieveOrders(
-        [FromServices] RetrieveOrdersHandler handler)
+    public async Task<IActionResult> RetrieveOrders([FromServices] RetrieveOrdersHandler handler)
     {
         var query = new RetrieveOrdersQuery();
-
         var orders = await handler.HandleAsync(query);
-
+        
         return Ok(orders);
     }
 
@@ -38,8 +36,8 @@ public class OrdersController : ControllerBase
     Guid id,
     [FromServices] CancelOrderHandler handler)
     {
-        var response = await handler.HandleAsync(
-            new CancelOrderCommand(id));
+
+        var response = await handler.HandleAsync(new CancelOrderCommand(id));
 
         if (!response.Success)
             return NotFound(response);
