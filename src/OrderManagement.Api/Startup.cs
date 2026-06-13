@@ -48,7 +48,7 @@ namespace OrderManagement.Api
                 .GetAwaiter()
                 .GetResult();
             });
-            
+
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();

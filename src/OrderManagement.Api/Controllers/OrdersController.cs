@@ -25,24 +25,10 @@ public class OrdersController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> RetrieveOrders([FromServices] RetrieveOrdersHandler handler)
     {
-        try
-        {
-            var query = new RetrieveOrdersQuery();
-            var orders = await handler.HandleAsync(query);
-
-            return Ok(orders);
-        }
-        catch (Exception ex)
-        {
-            var responsebase = new RetrieveOrdersResponse()
-            {
-                Success = false,
-                Message = "An error occurred while retrieving orders.",
-                Details = ex.Message
-            };
-
-            return BadRequest(responsebase);
-        }
+        var query = new RetrieveOrdersQuery();
+        var orders = await handler.HandleAsync(query);
+        
+        return Ok(orders);
     }
 
     [HttpPatch("{id:guid}/cancel")]
@@ -50,25 +36,12 @@ public class OrdersController : ControllerBase
     Guid id,
     [FromServices] CancelOrderHandler handler)
     {
-        try
-        {
-            var response = await handler.HandleAsync(new CancelOrderCommand(id));
 
-            if (!response.Success)
-                return NotFound(response);
+        var response = await handler.HandleAsync(new CancelOrderCommand(id));
 
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            var responsebase = new CancelOrderResponse()
-            {
-                Success = false,
-                Message = "An error occurred while cancelling the order.",
-                Details = ex.Message
-            };
+        if (!response.Success)
+            return NotFound(response);
 
-            return BadRequest(responsebase);
-        }
+        return Ok(response);
     }
 }
