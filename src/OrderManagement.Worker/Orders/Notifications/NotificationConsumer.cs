@@ -13,16 +13,12 @@ namespace OrderManagement.Worker.Orders.Notifications
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                using var scope = _scopeFactory.CreateScope();
+            using var scope = _scopeFactory.CreateScope();
 
-                var notificationHandler =
-                    scope.ServiceProvider
-                        .GetRequiredService<NotificationHandler>();
+            var notificationHandler = scope.ServiceProvider
+            .GetRequiredService<NotificationHandler>();
 
-                await notificationHandler.HandleNotifications();
-            }
+            await notificationHandler.HandleNotifications(stoppingToken);
         }
     }
 }

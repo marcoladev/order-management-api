@@ -16,20 +16,28 @@ namespace OrderManagement.Application.Notifications
             _auditLogRepository = auditLogRepository;
         }
 
-        public async Task HandleNotifications()
+        public async Task HandleNotifications(CancellationToken cancellationToken)
         {
-            var message = await _consumerMessage.ConsumeAsync<AuditLogEvent>("audit-log");
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var message =
+                    await _consumerMessage
+                        .ConsumeAsync<AuditLogEvent>(
+                            "audit-log");
 
-            if (message == null) //will send to dead letter queue or log for manual inspection
-                return;
+                if (message == null) //will send to dead letter queue or log for manual inspection
+                    continue;
 
-            var auditLog = await _auditLogRepository.GetByIdAsync(message.OrderId, message.Event);
+                var auditLog = await _auditLogRepository.GetByIdAsync(
+                            message.OrderId,
+                            message.Event);
 
-            if (auditLog == null) //will send to dead letter queue or log for manual inspection
-                return;
+                if (auditLog == null) //will send to dead letter queue or log for manual inspection
+                    continue;
 
-            await _notificationSender.SendAsync($"Audit log updated for order {message.OrderId}: {message.Event}");
-
+                await _notificationSender.SendAsync(
+                    $"Audit log updated for order {message.OrderId}: {message.Event}");
+            }
         }
     }
 }
