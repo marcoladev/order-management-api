@@ -5,5 +5,5 @@ namespace OrderManagement.Application.Orders.RetrieveOrders;
 
 public class RetrieveOrdersResponse : ResponseBase
 {
-    public List<Order> Orders { get; set; }
+    public List<Order> Orders { get; set; } = new List<Order>();
 }

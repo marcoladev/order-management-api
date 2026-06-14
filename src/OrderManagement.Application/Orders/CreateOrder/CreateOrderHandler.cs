@@ -1,5 +1,5 @@
+using OrderManagement.Application.Events;
 using OrderManagement.Application.Interfaces;
-using OrderManagement.Application.Orders.Events;
 using OrderManagement.Domain.Entities;
 
 namespace OrderManagement.Application.Orders.CreateOrder
@@ -7,14 +7,17 @@ namespace OrderManagement.Application.Orders.CreateOrder
     public class CreateOrderHandler
     {
         private readonly IPublisherMessageBus _messageBus;
-        private readonly IOrderRepository _repository;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IAuditLogRepository _auditLogRepository;
 
         public CreateOrderHandler(
             IOrderRepository orderRepository,
-            IPublisherMessageBus messageBus)
+            IPublisherMessageBus messageBus,
+            IAuditLogRepository auditLogRepository)
         {
-            _repository = orderRepository;
+            _orderRepository = orderRepository;
             _messageBus = messageBus;
+            _auditLogRepository = auditLogRepository;
         }
 
         public async Task<Guid> HandleAsync(CreateOrderCommand command)
@@ -23,14 +26,16 @@ namespace OrderManagement.Application.Orders.CreateOrder
                 command.CustomerName,
                 command.TotalAmount);
 
-            await _repository.AddAsync(order);
+            await _orderRepository.AddAsync(order);
 
-            await _messageBus.PublishAsync("order-created",
-                new OrderCreatedEvent(
-                    order.Id,
-                    order.CustomerName,
-                    order.TotalAmount,
-                    order.CreatedAt));
+            await _auditLogRepository.AddAsync(new AuditLog(
+                order.Id,
+                "order-created",
+                $"Order {order.Id} created for {order.CustomerName}"));
+
+            await _messageBus.PublishByEventAsync("audit-log", new AuditLogEvent(
+                order.Id,
+                "order-created"));
 
             return order.Id;
         }

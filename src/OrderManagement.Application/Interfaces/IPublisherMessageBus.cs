@@ -2,5 +2,5 @@ namespace OrderManagement.Application.Interfaces;
 
 public interface IPublisherMessageBus
 {
-    Task PublishAsync<T>(string queueName,T message);
+    Task PublishByEventAsync<T>(string queueName, T message);
 }

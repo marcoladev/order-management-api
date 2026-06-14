@@ -1,3 +1,4 @@
+using OrderManagement.Application.Events;
 using OrderManagement.Application.Interfaces;
 using OrderManagement.Domain.Entities;
 
@@ -6,10 +7,14 @@ namespace OrderManagement.Application.Orders.CancelOrder;
 public sealed class CancelOrderHandler
 {
     private readonly IOrderRepository _orderRepository;
+    private readonly IPublisherMessageBus _messageBus;
+    private readonly IAuditLogRepository _auditLogRepository;
 
-    public CancelOrderHandler(IOrderRepository orderRepository)
+    public CancelOrderHandler(IOrderRepository orderRepository, IPublisherMessageBus messageBus, IAuditLogRepository auditLogRepository)
     {
         _orderRepository = orderRepository;
+        _messageBus = messageBus;
+        _auditLogRepository = auditLogRepository;
     }
 
     public async Task<CancelOrderResponse> HandleAsync(
@@ -30,6 +35,13 @@ public sealed class CancelOrderHandler
         order.Cancel();
 
         await _orderRepository.UpdateAsync(order);
+
+        await _auditLogRepository.AddAsync(new AuditLog(
+            order.Id,
+            "order-cancelled",
+            $"Order {order.Id} cancelled for {order.CustomerName}"));
+
+        await _messageBus.PublishByEventAsync("audit-log", new AuditLogEvent(order.Id, "order-cancelled"));
 
         return new CancelOrderResponse(
             true,

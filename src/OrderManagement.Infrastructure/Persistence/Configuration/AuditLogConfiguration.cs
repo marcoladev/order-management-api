@@ -10,6 +10,9 @@ public class AuditLogConfiguration : IEntityTypeConfiguration<AuditLog>
     {
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.OrderId)
+            .IsRequired();
+
         builder.Property(x => x.EventType)
             .IsRequired()
             .HasMaxLength(100);
