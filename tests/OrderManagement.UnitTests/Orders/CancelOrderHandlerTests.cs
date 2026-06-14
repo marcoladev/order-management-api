@@ -8,12 +8,21 @@ namespace OrderManagement.UnitTests.Orders;
 public class CancelOrderHandlerTests
 {
     private readonly Mock<IOrderRepository> _repositoryMock;
+    private readonly Mock<IPublisherMessageBus> _messageBusMock;
+    private readonly Mock<IAuditLogRepository> _auditLogRepositoryMock;
     private readonly CancelOrderHandler _handler;
 
     public CancelOrderHandlerTests()
     {
         _repositoryMock = new Mock<IOrderRepository>();
-        _handler = new CancelOrderHandler(_repositoryMock.Object);
+        _messageBusMock = new Mock<IPublisherMessageBus>();
+        _auditLogRepositoryMock = new Mock<IAuditLogRepository>();
+
+        _messageBusMock = new Mock<IPublisherMessageBus>();
+
+        _handler = new CancelOrderHandler(_repositoryMock.Object, 
+        _messageBusMock.Object, 
+        _auditLogRepositoryMock.Object);
     }
 
     [Fact]

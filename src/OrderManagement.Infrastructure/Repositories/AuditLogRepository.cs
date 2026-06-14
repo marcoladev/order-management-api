@@ -1,4 +1,5 @@
 
+using Microsoft.EntityFrameworkCore;
 using OrderManagement.Application.Interfaces;
 using OrderManagement.Domain.Entities;
 using OrderManagement.Infrastructure.Base;
@@ -17,5 +18,17 @@ public class AuditLogRepository : RepositoryBase , IAuditLogRepository
         await _context.AuditLogs.AddAsync(auditLog);
 
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<AuditLog>> GetAllAsync()
+    {
+        return await _context.AuditLogs.ToListAsync();
+    }
+
+    public async Task<AuditLog?> GetByIdAsync(Guid id, string Event)
+    {
+        return await _context.AuditLogs
+        .Where(x => x.OrderId == id && x.EventType == Event)
+        .FirstOrDefaultAsync();
     }
 }

@@ -1,7 +1,7 @@
 using Moq;
+using OrderManagement.Application.Events;
 using OrderManagement.Application.Interfaces;
 using OrderManagement.Application.Orders.CreateOrder;
-using OrderManagement.Application.Orders.Events;
 using OrderManagement.Domain.Entities;
 
 namespace OrderManagement.UnitTests.Orders;
@@ -9,16 +9,19 @@ public class CreateOrderHandlerTests
 {
     private readonly Mock<IOrderRepository> _repositoryMock;
     private readonly Mock<IPublisherMessageBus> _messageBusMock;
+    private readonly Mock<IAuditLogRepository> _auditLogRepositoryMock;
     private readonly CreateOrderHandler _handler;
 
     public CreateOrderHandlerTests()
     {
         _repositoryMock = new Mock<IOrderRepository>();
         _messageBusMock = new Mock<IPublisherMessageBus>();
+        _auditLogRepositoryMock = new Mock<IAuditLogRepository>();
 
         _handler = new CreateOrderHandler(
             _repositoryMock.Object,
-            _messageBusMock.Object);
+            _messageBusMock.Object,
+            _auditLogRepositoryMock.Object);
     }
 
     [Fact]
@@ -47,9 +50,8 @@ public class CreateOrderHandlerTests
             Times.Once);
 
         _messageBusMock.Verify(
-            m => m.PublishAsync(
-                "order-created",
-                It.IsAny<OrderCreatedEvent>()),
+            m => m.PublishByEventAsync("",
+                It.IsAny<AuditLogEvent>()),
             Times.Once);
 
         Assert.NotNull(savedOrder);

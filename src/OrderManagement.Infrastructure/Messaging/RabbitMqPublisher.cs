@@ -14,9 +14,8 @@ public class RabbitMqPublisher : IPublisherMessageBus
         _connection = connection;
     }
 
-    public async Task PublishAsync<T>(string queueName, T message)
+    public async Task PublishByEventAsync<T>(string queueName, T message)
     {
-        
         await using var channel = await _connection.CreateChannelAsync();
 
         await channel.QueueDeclareAsync(

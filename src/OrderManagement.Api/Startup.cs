@@ -30,6 +30,7 @@ namespace OrderManagement.Api
             services.AddScoped<CreateOrderHandler>();
             services.AddScoped<RetrieveOrdersHandler>();
             services.AddScoped<CancelOrderHandler>();
+            services.AddScoped<IAuditLogRepository, AuditLogRepository>();
 
             services.AddScoped<IPublisherMessageBus, RabbitMqPublisher>();
 

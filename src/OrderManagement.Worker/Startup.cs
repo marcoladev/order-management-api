@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using OrderManagement.Application.AuditLogs;
 using OrderManagement.Application.Interfaces;
+using OrderManagement.Application.Notifications;
 using OrderManagement.Domain.Settings;
 using OrderManagement.Infrastructure.Messaging;
+using OrderManagement.Infrastructure.Notifications;
 using OrderManagement.Infrastructure.Persistence;
 using OrderManagement.Infrastructure.Repositories;
-using OrderManagement.Worker.Orders;
+using OrderManagement.Worker.Orders.Notifications;
 using RabbitMQ.Client;
 
 namespace OrderManagement.Worker;
@@ -33,11 +34,12 @@ public static class Startup
         });
 
         services.Configure<RabbitMqSettings>(configuration.GetSection("RabbitMq"));
-        services.AddHostedService<OrderCreatedConsumer>();
+        services.AddHostedService<NotificationConsumer>();
 
         services.AddScoped<IConsumerMessageBus, RabbitMqConsumer>();
         services.AddScoped<IAuditLogRepository, AuditLogRepository>();
-        services.AddScoped<AuditLogHandler>();
+        services.AddScoped<INotificationSender, NotificationSender>();
+        services.AddScoped<NotificationHandler>();
 
         return services;
     }
