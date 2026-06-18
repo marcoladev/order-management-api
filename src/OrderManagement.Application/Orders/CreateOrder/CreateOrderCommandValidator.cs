@@ -10,8 +10,11 @@ namespace OrderManagement.Application.Orders.CreateOrder
                 .NotEmpty()
                 .MaximumLength(100);
 
-            RuleFor(x => x.TotalAmount)
-                .GreaterThan(0);
+            RuleFor(x => x.Items)
+                .NotEmpty();
+
+            RuleForEach(x => x.Items)
+                .SetValidator(new CreateOrderItemCommandValidator());
         }
     }
 }

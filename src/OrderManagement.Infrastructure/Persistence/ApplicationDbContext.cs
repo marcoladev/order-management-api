@@ -13,6 +13,7 @@ namespace OrderManagement.Infrastructure.Persistence
 
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

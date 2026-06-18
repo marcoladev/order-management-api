@@ -21,8 +21,12 @@ public class RetrieveOrdersHandlerTests
     {
         var orders = new List<Order>
         {
-            new("John Doe", 100m),
-            new("Jane Smith", 250m)
+            new("John Doe", new List<OrderItem>(){
+                new OrderItem("Product A", 1, 50.00m)
+            }),
+            new("Jane Smith", new List<OrderItem>(){
+                new OrderItem("Product A", 1, 50.00m)
+            })
         };
 
         _repositoryMock
@@ -36,11 +40,9 @@ public class RetrieveOrdersHandlerTests
 
         Assert.Equal(orders[0].Id, result.Orders[0].Id);
         Assert.Equal("John Doe", result.Orders[0].CustomerName);
-        Assert.Equal(100m, result.Orders[0].TotalAmount);
 
         Assert.Equal(orders[1].Id, result.Orders[1].Id);
         Assert.Equal("Jane Smith", result.Orders[1].CustomerName);
-        Assert.Equal(250m, result.Orders[1].TotalAmount);
 
         _repositoryMock.Verify(
             r => r.GetAllAsync(),

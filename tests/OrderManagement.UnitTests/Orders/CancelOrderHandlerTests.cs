@@ -53,7 +53,9 @@ public class CancelOrderHandlerTests
         // Arrange
         var order = new Order(
             "John Doe",
-            1);
+            new List<OrderItem>(){
+                new OrderItem("Product A", 1, 50.00m)
+            });
 
         order.Cancel();
 
@@ -81,7 +83,9 @@ public class CancelOrderHandlerTests
         // Arrange
         var order = new Order(
             "John Doe",
-            1);
+            new List<OrderItem>(){
+                new OrderItem("Product A", 1, 50.00m)
+            });
 
         var command = new CancelOrderCommand(order.Id);
 
