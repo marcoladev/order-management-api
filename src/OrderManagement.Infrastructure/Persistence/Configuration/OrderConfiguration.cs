@@ -14,11 +14,13 @@ namespace OrderManagement.Infrastructure.Persistence.Configuration
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.Property(x => x.TotalAmount)
-                .HasPrecision(18, 2);
-
             builder.Property(x => x.Status)
                 .HasMaxLength(20);
+
+            builder.HasMany(x => x.OrderItems)
+            .WithOne()
+            .HasForeignKey("OrderId");
+
         }
     }
 }

@@ -26,7 +26,7 @@ public static class Startup
         {
             var factory = new ConnectionFactory
             {
-                HostName = configuration.GetSection("RabbitMq:Host").Get<string>()
+                HostName = configuration.GetSection("RabbitMq:Host").Get<string>() ?? "localhost"
             };
             return factory.CreateConnectionAsync()
             .GetAwaiter()

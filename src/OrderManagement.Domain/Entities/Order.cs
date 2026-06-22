@@ -5,31 +5,32 @@ namespace OrderManagement.Domain.Entities
     public class Order
     {
         public Guid Id { get; private set; }
-        public string CustomerName { get; private set; }
-        public decimal TotalAmount { get; private set; }
+        public string CustomerName { get; private set; } = string.Empty;
         public OrderStatus Status { get; private set; }
-        public DateTime CreatedAt { get; private set; }
+        public DateTime dCreated { get; private set; }
+
+        private readonly List<OrderItem> _orderItems = new();
+        public ICollection<OrderItem> OrderItems { get; private set; } = new List<OrderItem>();
 
         public Order(
             string customerName,
-            decimal totalAmount)
+            List<OrderItem> items)
         {
             Id = Guid.NewGuid();
             CustomerName = customerName;
-            TotalAmount = totalAmount;
+            _orderItems.AddRange(items);
+            //TotalAmount = items.Sum(i => i.Quantity * i.UnitPrice);
             Status = OrderStatus.Pending;
-            CreatedAt = DateTime.UtcNow;
+            dCreated = DateTime.UtcNow;
         }
 
-        private Order()
-        {
-        }
+        private Order(){}
 
         public void Cancel()
         {
             if (Status == OrderStatus.Cancelled)
                 throw new DomainException("Order is already cancelled.");
-                
+
             Status = OrderStatus.Cancelled;
         }
     }

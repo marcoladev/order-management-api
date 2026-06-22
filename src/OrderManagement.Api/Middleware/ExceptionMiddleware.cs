@@ -32,7 +32,7 @@ public class ExceptionMiddleware
 
             await context.Response.WriteAsJsonAsync(new
             {
-                Message = "Internal server error"
+                Message = ex.Message
             });
         }
     }

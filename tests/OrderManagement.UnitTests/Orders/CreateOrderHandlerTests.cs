@@ -30,7 +30,11 @@ public class CreateOrderHandlerTests
         // Arrange
         var command = new CreateOrderCommand(
             "John Doe",
-            150.50m);
+            new List<CreateOrderItemCommand>()
+            {
+                new CreateOrderItemCommand("Product A", 1, 50.00m),
+                new CreateOrderItemCommand("Product B", 2, 25.00m)
+            });
 
         Order? savedOrder = null;
 
@@ -56,7 +60,6 @@ public class CreateOrderHandlerTests
 
         Assert.NotNull(savedOrder);
         Assert.Equal(command.CustomerName, savedOrder!.CustomerName);
-        Assert.Equal(command.TotalAmount, savedOrder.TotalAmount);
         Assert.Equal(result, savedOrder.Id);
     }
 }
