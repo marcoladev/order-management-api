@@ -1,3 +1,4 @@
+using System;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using OrderManagement.Application.Interfaces;
@@ -26,6 +27,12 @@ namespace OrderManagement.Api
                 ));
 
             services.AddScoped<IOrderRepository, OrderRepository>();
+
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            Console.WriteLine($"!!! CURRENT ENVIRONMENT IS: {env} !!!");
+
+            var connString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
+            Console.WriteLine($"!!! CONN STRING IS SET: {!string.IsNullOrEmpty(connString)} !!!");
 
             services.AddScoped<CreateOrderHandler>();
             services.AddScoped<RetrieveOrdersHandler>();
