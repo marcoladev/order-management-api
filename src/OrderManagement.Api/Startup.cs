@@ -19,20 +19,13 @@ namespace OrderManagement.Api
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(
-                    configuration.GetConnectionString("DefaultConnection"),
-                    ServerVersion.AutoDetect(
-                        configuration.GetConnectionString("DefaultConnection"))
-                ));
+
+            var dbConnection = Environment.GetEnvironmentVariable("DefaultConnection") 
+                ?? configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(dbConnection,ServerVersion.AutoDetect(dbConnection)));
 
             services.AddScoped<IOrderRepository, OrderRepository>();
-
-            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            Console.WriteLine($"!!! CURRENT ENVIRONMENT IS: {env} !!!");
-
-            var connString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
-            Console.WriteLine($"!!! CONN STRING IS SET: {!string.IsNullOrEmpty(connString)} !!!");
 
             services.AddScoped<CreateOrderHandler>();
             services.AddScoped<RetrieveOrdersHandler>();
@@ -50,7 +43,7 @@ namespace OrderManagement.Api
             {
                 var factory = new ConnectionFactory
                 {
-                    HostName = configuration.GetSection("RabbitMq:Host").Get<string>()
+                    HostName = Environment.GetEnvironmentVariable("RabbitMqUrl") ?? configuration.GetSection("RabbitMq:Host").Get<string>()
                 };
                 return factory.CreateConnectionAsync()
                 .GetAwaiter()
@@ -63,5 +56,6 @@ namespace OrderManagement.Api
 
             return services;
         }
+
     }
 }
