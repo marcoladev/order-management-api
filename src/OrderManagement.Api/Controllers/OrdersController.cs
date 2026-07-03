@@ -11,14 +11,15 @@ public class OrdersController : ControllerBase
 {
     [HttpPost]
     public async Task<IActionResult> Create(
-        [FromServices] CreateOrderHandler handler,
-        [FromBody] CreateOrderCommand command)
+    [FromServices] CreateOrderHandler handler,
+    [FromBody] CreateOrderCommand command)
     {
         var id = await handler.HandleAsync(command);
 
+        // Assuming your GET method is named "GetById"
         return CreatedAtAction(
-            nameof(Create),
-            new { id },
+            "GetById",
+            new { id = id },
             new { id });
     }
 
@@ -27,7 +28,7 @@ public class OrdersController : ControllerBase
     {
         var query = new RetrieveOrdersQuery();
         var orders = await handler.HandleAsync(query);
-        
+
         return Ok(orders);
     }
 
