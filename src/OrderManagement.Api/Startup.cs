@@ -43,7 +43,7 @@ namespace OrderManagement.Api
             {
                 var factory = new ConnectionFactory
                 {
-                    HostName = Environment.GetEnvironmentVariable("RABBITMQ_URL") ?? configuration.GetSection("RabbitMq:Host").Get<string>(),
+                    HostName = Environment.GetEnvironmentVariable("RABBITMQ_PRIVATE_URL") ?? configuration.GetSection("RabbitMq:Host").Get<string>(),
                     UserName = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_USER") ?? "",
                     Password = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_PASS") ?? ""
                 };
