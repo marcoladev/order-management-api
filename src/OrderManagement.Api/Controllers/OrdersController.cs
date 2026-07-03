@@ -16,11 +16,7 @@ public class OrdersController : ControllerBase
     {
         var id = await handler.HandleAsync(command);
 
-        // Assuming your GET method is named "GetById"
-        return CreatedAtAction(
-            "GetById",
-            new { id = id },
-            new { id });
+        return Ok(id);
     }
 
     [HttpGet]
