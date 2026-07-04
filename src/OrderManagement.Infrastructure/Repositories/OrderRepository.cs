@@ -27,8 +27,11 @@ namespace OrderManagement.Infrastructure.Repositories
         public async Task<List<Order>> GetAllAsync()
         {
             return await _context.Orders
+            .AsNoTracking()
+            .Include(x => x.OrderItems)
             .Where(x => x.Status == OrderStatus.Pending && x.OrderItems.Any())
-            .AsNoTracking().Include(x => x.OrderItems).ToListAsync();
+            .OrderByDescending(x => x.dCreated)
+            .ToListAsync();
         }
 
         public async Task UpdateAsync(Order order)
