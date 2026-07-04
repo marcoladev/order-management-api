@@ -20,7 +20,7 @@ namespace OrderManagement.Api
             IConfiguration configuration)
         {
 
-            var dbConnection = Environment.GetEnvironmentVariable("DefaultConnection")
+            var dbConnection = Environment.GetEnvironmentVariable("DEFAULT_CONNECTION")
                 ?? configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(dbConnection, ServerVersion.AutoDetect(dbConnection)));
@@ -34,8 +34,7 @@ namespace OrderManagement.Api
 
             services.AddScoped<IPublisherMessageBus, RabbitMqPublisher>();
 
-            services.Configure<RabbitMqSettings>(
-                configuration.GetSection("RabbitMq"));
+            services.Configure<RabbitMqSettings>(configuration.GetSection("RabbitMq"));
 
             services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 
