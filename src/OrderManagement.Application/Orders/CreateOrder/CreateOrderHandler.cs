@@ -24,7 +24,7 @@ namespace OrderManagement.Application.Orders.CreateOrder
         {
             var order = new Order(
                 command.CustomerName,
-                command.Items.Select(i => new OrderItem(i.ProductName, i.Quantity, i.UnitPrice))
+                command.Items.Select(i => new OrderItem(i.ProductName, i.Quantity, i.UnitPrice)).ToList()
                 .ToList());
 
             await _orderRepository.AddAsync(order);

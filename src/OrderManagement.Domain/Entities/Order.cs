@@ -9,8 +9,7 @@ namespace OrderManagement.Domain.Entities
         public OrderStatus Status { get; private set; }
         public DateTime dCreated { get; private set; }
 
-        private readonly List<OrderItem> _orderItems = new();
-        public ICollection<OrderItem> OrderItems { get; private set; } = new List<OrderItem>();
+        public ICollection<OrderItem> OrderItems { get; set; }
 
         public Order(
             string customerName,
@@ -18,8 +17,7 @@ namespace OrderManagement.Domain.Entities
         {
             Id = Guid.NewGuid();
             CustomerName = customerName;
-            _orderItems.AddRange(items);
-            //TotalAmount = items.Sum(i => i.Quantity * i.UnitPrice);
+            OrderItems = items;
             Status = OrderStatus.Pending;
             dCreated = DateTime.UtcNow;
         }

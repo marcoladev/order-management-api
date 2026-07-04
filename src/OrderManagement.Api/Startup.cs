@@ -20,10 +20,10 @@ namespace OrderManagement.Api
             IConfiguration configuration)
         {
 
-            var dbConnection = Environment.GetEnvironmentVariable("DefaultConnection") 
+            var dbConnection = Environment.GetEnvironmentVariable("DEFAULT_CONNECTION")
                 ?? configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(dbConnection,ServerVersion.AutoDetect(dbConnection)));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(dbConnection, ServerVersion.AutoDetect(dbConnection)));
 
             services.AddScoped<IOrderRepository, OrderRepository>();
 
@@ -34,23 +34,30 @@ namespace OrderManagement.Api
 
             services.AddScoped<IPublisherMessageBus, RabbitMqPublisher>();
 
-            services.Configure<RabbitMqSettings>(
-                configuration.GetSection("RabbitMq"));
+            services.Configure<RabbitMqSettings>(configuration.GetSection("RabbitMq"));
 
             services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>();
 
             services.AddSingleton<IConnection>(sp =>
             {
-                var factory = new ConnectionFactory
+                var factory = new ConnectionFactory();
+                
+                var privateUrl = Environment.GetEnvironmentVariable("RABBITMQ_PRIVATE_URL");
+                
+                if (!string.IsNullOrEmpty(privateUrl))
                 {
-                    HostName = Environment.GetEnvironmentVariable("RABBITMQ_PRIVATE_URL") ?? configuration.GetSection("RabbitMq:Host").Get<string>(),
-                    UserName = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_USER") ?? "",
-                    Password = Environment.GetEnvironmentVariable("RABBITMQ_DEFAULT_PASS") ?? ""
-                };
+                    factory.Uri = new Uri(privateUrl);
+                }
+                else
+                {
+                    factory.HostName = Environment.GetEnvironmentVariable("Host") ?? configuration.GetSection("RabbitMq:Host").Get<string>();
+                }
+                
                 return factory.CreateConnectionAsync()
                 .GetAwaiter()
                 .GetResult();
-            });
+            }
+            );
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
