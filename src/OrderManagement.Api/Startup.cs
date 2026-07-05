@@ -50,7 +50,7 @@ namespace OrderManagement.Api
                 }
                 else
                 {
-                    factory.HostName = Environment.GetEnvironmentVariable("Host") ?? configuration.GetSection("RabbitMq:Host").Get<string>();
+                    factory.HostName = configuration.GetSection("RabbitMq:Host").Get<string>() ?? "localhost";
                 }
                 
                 return factory.CreateConnectionAsync()
