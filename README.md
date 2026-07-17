@@ -17,8 +17,7 @@ OrderManagement
 │   ├── OrderManagement.Api
 │   ├── OrderManagement.Application
 │   ├── OrderManagement.Domain
-│   ├── OrderManagement.Infrastructure
-│   └── OrderManagement.Worker
+│   └── OrderManagement.Infrastructure
 │
 ├── tests
 │   └── OrderManagement.UnitTests
@@ -93,11 +92,6 @@ Default credentials:
 
 * Order Updated Event
 * Order Cancelled Event
-* Notification Worker
-* Email Notifications
-* Retry Policies and Dead Letter Queues
 * Integration Tests
 * Unit Testing
-* Validations
-* Docker Compose Setup
 * OpenTelemetry Monitoring
