@@ -22,8 +22,6 @@ namespace OrderManagement.Domain.Entities
             dCreated = DateTime.UtcNow;
         }
 
-        private Order(){}
-
         public void Cancel()
         {
             if (Status == OrderStatus.Cancelled)
